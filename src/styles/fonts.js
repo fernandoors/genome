@@ -1,10 +1,11 @@
 const fonts = {
-  biggest: 24,
-  input: 16,
-  regular: 14,
-  medium: 12,
-  small: 11,
-  tiny: 10,
+  biggest: 40,
+  big: 34,
+  regular: 28,
+  medium: 22,
+  small: 16,
+  tiny: 12,
+  family: 'Roboto',
 };
 
 export default fonts;

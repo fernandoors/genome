@@ -1,39 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Animated } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import App from './App';
-
-// const Stack = createStackNavigator();
+import colors from './styles/colors';
+import Wearables from './Screen/Wearables';
+import Profile from './Screen/Profile';
+import Help from './Screen/Help';
 const Tab = createBottomTabNavigator();
 
 export default function () {
+  const animatedValue = new Animated.Value(-100);
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
   return (
     <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen
-          component={App}
-          name="Home"
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName = 'death-star-variant';
-              if (route.name === 'Home') {
-                iconName = focused ? 'ios-star' : 'ios-star-outline';
-              } else if (route.name === 'Help') {
-                iconName = focused ? 'ios-list-box' : 'ios-list';
-              }
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
-          })}
-          tabBarOptions={{
-            activeTintColor: 'black',
-            inactiveTintColor: 'gray',
-          }}
-        />
-        <Tab.Screen name="Profile" component={App} />
-        <Tab.Screen name="Help" component={App} />
+      <Tab.Navigator
+        style={{ transform: [{ translateY: animatedValue }] }}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            const iconName = {
+              Wearables: focused ? 'favorite' : 'favorite-border',
+              Profile: focused ? 'person' : 'person-outline',
+              Help: focused ? 'help' : 'help-outline',
+            }[route.name];
+            return <MaterialIcons name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: colors.black,
+          inactiveTintColor: colors.secundary,
+        }}>
+        <Tab.Screen name="Wearables" component={Wearables} />
+        <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen name="Help" component={Help} />
       </Tab.Navigator>
     </NavigationContainer>
   );

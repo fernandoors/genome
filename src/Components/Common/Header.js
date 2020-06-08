@@ -1,20 +1,34 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Avatar from '../Styles/Avatar';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, Animated } from 'react-native';
+import Avatar from './Avatar';
 import Button from '../Styles/Button';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import colors from '../../styles/colors';
+import fonts from '../../styles/fonts';
 
 export default function () {
+  const animatedValue = new Animated.Value(10);
+
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 0,
+      duration: 100,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
   return (
-    <View style={defaultStyles.container}>
+    <Animated.View
+      style={[
+        defaultStyles.container,
+        { transform: [{ translateY: animatedValue }] },
+      ]}>
       <Avatar />
-      <Text style={defaultStyles.userName}>Nome do usuario</Text>
+      <Text style={defaultStyles.userName}>Lottie Curtis</Text>
       <View style={defaultStyles.profileButton}>
         <Button styles={defaultStyles.button}>
-          <Text style={defaultStyles.buttonText}>You have 1 Product</Text>
+          <Text style={defaultStyles.buttonText}>You have 3 Product</Text>
         </Button>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 
@@ -25,21 +39,26 @@ const defaultStyles = StyleSheet.create({
     alignItems: 'center',
   },
   userName: {
-    backgroundColor: Colors.gray,
+    color: colors.white,
     fontWeight: '700',
-    fontSize: 14,
+    fontSize: fonts.small,
     marginTop: 20,
     marginBottom: 20,
+    fontFamily: fonts.family,
   },
   profileButton: {
     width: '80%',
     alignItems: 'center',
+    fontFamily: fonts.family,
   },
   button: {
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
+    padding: 10,
   },
   buttonText: {
     fontWeight: '700',
-    color: Colors.gray,
+    color: colors.gray,
+    marginHorizontal: 10,
+    fontFamily: fonts.family,
   },
 });

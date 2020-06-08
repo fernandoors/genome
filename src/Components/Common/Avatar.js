@@ -1,10 +1,14 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
-const avatar = require('../../Assets/images/avatar.jpg');
-export default function (props) {
-  // const { source, styles } = props;
+import { useNavigation } from '@react-navigation/native';
+const avatar = require('../../Assets/images/profile.png');
+export default function () {
+  const { navigate } = useNavigation();
+  function goToProfile() {
+    navigate('Profile');
+  }
   return (
-    <TouchableOpacity {...props}>
+    <TouchableOpacity onPress={goToProfile}>
       <View style={defaultStyles.content}>
         <Image style={defaultStyles.avatar} source={avatar} />
       </View>
